@@ -7,19 +7,27 @@ This page provides a quick reference to all SBS control statements. Each control
 **SBS-FDNS-001: Centralized Security System of Record**  
 The organization must maintain a centralized system of record documenting all Salesforce security configurations, exceptions, justifications, and SBS-required inventories.
 
-## Authentication
+## OAuth Security
 
-**SBS-AUTH-001: Enforce Single Sign-On for All Standard Production Users**  
-Salesforce production orgs must enforce Single Sign-On (SSO) for all standard users by enabling the org-level setting that disables Salesforce credential logins and assigning the "Is Single Sign-On Enabled" permission to all non-exempt accounts.
+**SBS-OAUTH-001: Require Formal Installation and Access Governance for Connected Apps**  
+Organizations must formally install all connected apps and must control access to each installed app exclusively through assigned profiles or permission sets.
 
-**SBS-AUTH-002: Govern and Document All Users Permitted to Bypass Single Sign-On**  
-All users who do not have the "Is Single Sign-On Enabled" permission must be explicitly authorized, documented in a system of record, and limited to approved administrative or break-glass use cases.
+**SBS-OAUTH-002: Inventory and Criticality Classification of OAuth-Enabled Connected Apps**  
+All OAuth-enabled Connected Apps must be recorded in an authoritative system of record and assigned a documented vendor criticality rating reflecting integration importance and data sensitivity.
 
-**SBS-AUTH-003: Enforce a Minimum Global Password Policy for Local Authentication**
-Salesforce production orgs that permit any local (non-SSO) authentication must configure the global password policy to meet or exceed the ISSB-defined minimum baseline for password strength, lifetime, reuse prevention, lockout, and reset handling.
+**SBS-OAUTH-003: Due Diligence Documentation for High-Risk Connected App Vendors**  
+Organizations must review and retain available security documentation for all high-risk Connected App vendors and explicitly record any missing documentation as part of the vendor assessment.
 
-**SBS-AUTH-004 — Prohibit Broad or Unrestricted Profile Login IP Ranges**
-Profiles in Salesforce production orgs must not contain login IP ranges that effectively permit access from the full public internet or other overly broad ranges that bypass network-based access controls.
+## Integrations
+
+**SBS-INT-001: Enforce Governance of Browser Extensions Accessing Salesforce**  
+Organizations must enforce a centrally managed mechanism that restricts which browser extensions are permitted to access Salesforce, and must not allow the use of unmanaged or uncontrolled extensions.
+
+**SBS-INT-002: Inventory and Justification of Remote Site Settings**  
+Organizations must maintain an authoritative inventory of all Remote Site Settings and document a business justification for each endpoint approved for Apex HTTP callouts.
+
+**SBS-INT-003: Inventory and Justification of Named Credentials**  
+Organizations must maintain an authoritative inventory of all Named Credentials and document a business justification for each external endpoint and authentication configuration approved for use in Salesforce.
 
 ## Permissions
 
@@ -35,30 +43,19 @@ The "Approve Uninstalled Connected Apps" permission must only be assigned to hig
 **SBS-PERM-004: Documented Justification for All Super Admin–Equivalent Users**  
 All users with simultaneous View All Data, Modify All Data, and Manage Users permissions must be documented in a system of record with clear business or technical justification.
 
-## OAuth Security
+## Authentication
 
-**SBS-OAUTH-001: Require Formal Installation and Access Governance for Connected Apps**  
-Organizations must formally install all connected apps and must control access to each installed app exclusively through assigned profiles or permission sets.
+**SBS-AUTH-001: Enforce Single Sign-On for All Standard Production Users**  
+Salesforce production orgs must enforce Single Sign-On (SSO) for all standard users by enabling the org-level setting that disables Salesforce credential logins and assigning the "Is Single Sign-On Enabled" permission to all non-exempt accounts.
 
-**SBS-OAUTH-002: Inventory and Criticality Classification of OAuth-Enabled Connected Apps**  
-All OAuth-enabled Connected Apps must be recorded in an authoritative system of record and assigned a documented vendor criticality rating reflecting integration importance and data sensitivity.
+**SBS-AUTH-002: Govern and Document All Users Permitted to Bypass Single Sign-On**  
+All users who do not have the "Is Single Sign-On Enabled" permission must be explicitly authorized, documented in a system of record, and limited to approved administrative or break-glass use cases.
 
-**SBS-OAUTH-003: Revocation of Unused or Deprecated OAuth-Enabled Connected Apps**  
-All OAuth-enabled Connected Apps that are unused, deprecated, or no longer required for business operations must be revoked and removed from the Salesforce environment.
+**SBS-AUTH-003: Enforce a Minimum Global Password Policy for Local Authentication**  
+Salesforce production orgs that permit any local (non-SSO) authentication must configure the global password policy to meet or exceed the ISSB-defined minimum baseline for password strength, lifetime, reuse prevention, lockout, and reset handling.
 
-**SBS-OAUTH-004: Due Diligence Documentation for High-Risk Connected App Vendors**  
-Organizations must review and retain available security documentation for all high-risk Connected App vendors and explicitly record any missing documentation as part of the vendor assessment.
-
-## Integrations
-
-**SBS-INT-001: Enforce Governance of Browser Extensions Accessing Salesforce**  
-Organizations must enforce a centrally managed mechanism that restricts which browser extensions are permitted to access Salesforce, and must not allow the use of unmanaged or uncontrolled extensions.
-
-**SBS-INT-002: Inventory and Justification of Remote Site Settings**  
-Organizations must maintain an authoritative inventory of all Remote Site Settings and document a business justification for each endpoint approved for Apex HTTP callouts.
-
-**SBS-INT-003: Inventory and Justification of Named Credentials**  
-Organizations must maintain an authoritative inventory of all Named Credentials and document a business justification for each external endpoint and authentication configuration approved for use in Salesforce.
+**SBS-AUTH-004: Prohibit Broad or Unrestricted Profile Login IP Ranges**  
+Profiles in Salesforce production orgs must not contain login IP ranges that effectively permit access from the full public internet or other overly broad ranges that bypass network-based access controls.
 
 ## Code Security
 

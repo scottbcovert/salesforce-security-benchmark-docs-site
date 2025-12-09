@@ -35,12 +35,12 @@ export default defineConfig({
         text: 'Benchmark',
         items: [
           { text: 'Foundations', link: '/benchmark/foundations' },
-          { text: 'Permissions', link: '/benchmark/permissions' },
           { text: 'OAuth Security', link: '/benchmark/oauth-security' },
           { text: 'Integrations', link: '/benchmark/integrations' },
+          { text: 'Permissions', link: '/benchmark/permissions' },
+          { text: 'Authentication', link: '/benchmark/authentication' },
           { text: 'Code Security', link: '/benchmark/code-security' },
-          { text: 'Data Security', link: '/benchmark/data-security' },
-          { text: 'Authentication', link: '/benchmark/authentication' }
+          { text: 'Data Security', link: '/benchmark/data-security' }
         ]
       },
 
