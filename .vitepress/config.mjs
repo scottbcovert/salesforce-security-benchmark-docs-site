@@ -28,6 +28,8 @@ export default defineConfig({
         items: [
           { text: 'Introduction', link: '/introduction' },
           { text: 'Controls At-a-Glance', link: '/controls-at-a-glance' },
+          { text: 'For Security Vendors', link: '/for-vendors' },
+          { text: 'Contributing', link: '/CONTRIBUTING' },
           { text: 'About', link: '/about' }
         ]
       },
