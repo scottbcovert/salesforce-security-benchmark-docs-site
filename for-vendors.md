@@ -11,7 +11,7 @@ SBS controls are available in a structured XML format designed for programmatic 
 The XML file is published with each SBS release on GitHub:
 
 ```
-https://github.com/yourusername/sbs/releases/download/v1.0.0/sbs-controls.xml
+https://github.com/Salesforce-Security-Benchmark/releases/download/v1.0.0/sbs-controls.xml
 ```
 
 Replace `v1.0.0` with the desired version. Always use a specific version to ensure consistency in your tooling.
