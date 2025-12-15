@@ -11,11 +11,11 @@ export default defineConfig({
       'link',
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600&display=swap' }
     ],
-    ['link', { rel: 'icon', href: '/fav_icon.png' }]
+    ['link', { rel: 'icon', href: '/fav_sbs.png' }]
   ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    logo: '/awaf-logo.svg',
+    logo: '/sbs_logo.svg',
     outline: [2, 3], // Show h2 and h3 in the right sidebar
     
     search: {
