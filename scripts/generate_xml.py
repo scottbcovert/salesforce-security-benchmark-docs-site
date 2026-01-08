@@ -8,6 +8,7 @@ import re
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 from pathlib import Path
+import yaml
 
 def parse_control_from_lines(lines, start_idx):
     """Parse a single control starting from the given line index."""
@@ -113,6 +114,62 @@ def parse_markdown_file(filepath):
     
     return controls
 
+def load_control_metadata(control_id, metadata_dir):
+    """Load metadata YAML file for a control if it exists."""
+    metadata_file = metadata_dir / f"{control_id}.yaml"
+    
+    if not metadata_file.exists():
+        return None
+    
+    try:
+        with open(metadata_file, 'r', encoding='utf-8') as f:
+            metadata = yaml.safe_load(f)
+        return metadata
+    except Exception as e:
+        print(f"ERROR: Failed to load metadata for {control_id}: {e}")
+        raise
+
+def validate_metadata(control_id, metadata):
+    """Validate metadata structure and enforce rules."""
+    if not metadata:
+        return
+    
+    # Validate remediation scope
+    if 'remediation' in metadata:
+        remediation = metadata['remediation']
+        
+        if 'scope' in remediation:
+            scope = remediation['scope']
+            valid_scopes = ['org', 'entity', 'mechanism', 'inventory']
+            
+            if scope not in valid_scopes:
+                raise ValueError(
+                    f"Invalid scope '{scope}' for control {control_id}. "
+                    f"Must be one of: {', '.join(valid_scopes)}"
+                )
+            
+            # If scope is 'entity', entity_type is required
+            if scope == 'entity' and 'entity_type' not in remediation:
+                raise ValueError(
+                    f"Control {control_id} has scope='entity' but missing required 'entity_type'"
+                )
+            
+            # If scope is not 'entity', entity_type should not be present
+            if scope != 'entity' and 'entity_type' in remediation:
+                raise ValueError(
+                    f"Control {control_id} has scope='{scope}' but includes 'entity_type'. "
+                    f"'entity_type' is only valid for scope='entity'"
+                )
+    
+    # Validate task structure
+    if 'task' in metadata:
+        task = metadata['task']
+        
+        if 'title_template' not in task or not task['title_template']:
+            raise ValueError(
+                f"Control {control_id} has task metadata but missing or empty 'title_template'"
+            )
+
 def create_xml_element(parent, tag, text=None, attributes=None):
     """Helper to create XML elements with proper formatting."""
     elem = ET.SubElement(parent, tag, attrib=attributes or {})
@@ -120,7 +177,7 @@ def create_xml_element(parent, tag, text=None, attributes=None):
         elem.text = text
     return elem
 
-def generate_xml(controls, version="1.0.0"):
+def generate_xml(controls, version="1.0.0", metadata_dir=None):
     """Generate XML structure from parsed controls."""
     root = ET.Element('sbs_benchmark')
     root.set('version', version)
@@ -160,6 +217,34 @@ def generate_xml(controls, version="1.0.0"):
             create_xml_element(control_elem, 'rationale', control.get('rationale', ''))
             create_xml_element(control_elem, 'audit_procedure', control.get('audit_procedure', ''))
             create_xml_element(control_elem, 'remediation', control.get('remediation', ''))
+            
+            # Add metadata-derived elements if metadata exists
+            if metadata_dir:
+                control_id = control.get('id', '')
+                control_metadata = load_control_metadata(control_id, metadata_dir)
+                
+                if control_metadata:
+                    validate_metadata(control_id, control_metadata)
+                    
+                    # Add remediation_scope block
+                    if 'remediation' in control_metadata:
+                        remediation_data = control_metadata['remediation']
+                        remediation_scope_elem = ET.SubElement(control_elem, 'remediation_scope')
+                        
+                        if 'scope' in remediation_data:
+                            create_xml_element(remediation_scope_elem, 'scope', remediation_data['scope'])
+                        
+                        if 'entity_type' in remediation_data:
+                            create_xml_element(remediation_scope_elem, 'entity_type', remediation_data['entity_type'])
+                    
+                    # Add task block
+                    if 'task' in control_metadata:
+                        task_data = control_metadata['task']
+                        task_elem = ET.SubElement(control_elem, 'task')
+                        
+                        if 'title_template' in task_data:
+                            create_xml_element(task_elem, 'title_template', task_data['title_template'])
+            
             create_xml_element(control_elem, 'default_value', control.get('default_value', ''))
     
     return root
@@ -175,6 +260,7 @@ def main():
     # Get the benchmark directory
     script_dir = Path(__file__).parent
     benchmark_dir = script_dir.parent / 'benchmark'
+    metadata_dir = script_dir.parent / 'control-metadata'
     output_file = script_dir.parent / 'sbs-controls.xml'
     version_file = script_dir.parent / 'VERSION'
     
@@ -187,6 +273,16 @@ def main():
     
     print(f"SBS Version: {version}")
     print(f"Scanning for controls in: {benchmark_dir}")
+    
+    # Check for metadata directory
+    if metadata_dir.exists():
+        metadata_files = list(metadata_dir.glob('*.yaml'))
+        print(f"Found {len(metadata_files)} metadata file(s) in: {metadata_dir}")
+        for mf in metadata_files:
+            print(f"  - {mf.name}")
+    else:
+        print(f"No metadata directory found at: {metadata_dir}")
+        metadata_dir = None
     
     # Parse all markdown files
     all_controls = []
@@ -202,7 +298,7 @@ def main():
     
     # Generate XML
     print("Generating XML...")
-    xml_root = generate_xml(all_controls, version=version)
+    xml_root = generate_xml(all_controls, version=version, metadata_dir=metadata_dir)
     
     # Write to file
     xml_string = prettify_xml(xml_root)

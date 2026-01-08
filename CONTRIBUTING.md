@@ -74,9 +74,52 @@ Salesforce's out-of-the-box behavior related to this control.
 
 ```
 
+**Create control metadata (recommended for all controls):**
+
+Create a metadata file in `control-metadata/` to define the remediation scope and task title:
+
+```yaml
+# control-metadata/SBS-CATEGORY-###.yaml
+control_id: SBS-CATEGORY-###
+
+remediation:
+  scope: org | entity | mechanism | inventory
+  entity_type: ConnectedApp  # only required if scope = entity
+
+task:
+  title_template: "Clear, actionable task description"
+```
+
+**Remediation scopes:**
+
+- **org** — One org-level configuration change (e.g., enable setting, configure policy)
+- **entity** — One task per noncompliant entity (e.g., per Connected App, per Profile)
+- **mechanism** — Implement tooling or automated process (e.g., build scanner, deploy monitoring)
+- **inventory** — Establish and maintain system of record (e.g., document approved users, track criticality ratings)
+
+**Choosing the right scope:**
+
+- If the control requires flipping switches or changing org settings → `org`
+- If the control requires fixing each item individually → `entity` (and specify `entity_type`)
+- If the control requires building custom tooling or automation → `mechanism`
+- If the control requires maintaining external documentation/tracking → `inventory`
+
+**Task title templates:**
+
+- Must be clear, actionable, and deterministic
+- For `entity` scope: Use `{{entity.name}}` or `{{entity.id}}` for dynamic values
+- For other scopes: Use static, descriptive titles
+- Examples:
+  - `org`: "Implement SSO enforcement for production users"
+  - `entity`: "Formally install Connected App: {{entity.name}}"`
+  - `mechanism`: "Implement regulated data detection for Long Text Area fields"
+  - `inventory`: "Establish and maintain SSO bypass user inventory"
+
+**Important:** Each control must map to exactly **one** remediation scope. If a control seems to require multiple scopes or multiple actions, it should be split into multiple controls.
+
 **For existing control changes:**
 
-Edit the markdown file and clearly describe what you changed and why in your PR.
+Edit the markdown file and clearly describe what you changed and why in your PR. If you're modifying a control's scope or requirements, update the corresponding metadata file in `control-metadata/` if it exists.
 
 ### Step 3: Update Controls At-a-Glance
 
@@ -84,11 +127,19 @@ If you're adding a new control, add the control statement to `controls-at-a-glan
 
 ### Step 4: Test Locally
 
-Run the XML generation script to ensure your changes don't break parsing:
+Run the XML generation script to ensure your changes don't break parsing and that metadata validates correctly:
 
 ```bash
 python3 scripts/generate_xml.py
 ```
+
+The script will:
+- Parse all markdown control files
+- Load and validate any metadata files in `control-metadata/`
+- Generate the complete XML output
+- Report any errors in control format or metadata structure
+
+If you created metadata files, verify that the generated XML includes `<remediation_scope>` and `<task>` blocks for your control.
 
 ### Step 5: Submit Pull Request
 
@@ -111,6 +162,12 @@ python3 scripts/generate_xml.py
 ### Control Quality Requirements
 
 All controls must meet these standards:
+
+**Atomic and Single-Purpose**
+- Each control must define exactly **one** security obligation
+- Each control must map to exactly **one** remediation scope (control, capability, or entity)
+- If a control statement uses "and" to join multiple requirements, it likely needs to be split into multiple controls
+- Example violation: "Organizations must install apps **and** control access via profiles" → Should be two controls
 
 **Binary and Auditable**
 - Controls must have clear pass/fail criteria

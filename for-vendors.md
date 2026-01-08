@@ -47,6 +47,137 @@ The XML file follows a predictable structure:
 </sbs_benchmark>
 ```
 
+## Remediation Scope and Task Generation
+
+Starting with SBS version 0.2.0, controls may include additional metadata to support **deterministic task generation** in compliance tools. This metadata ensures that when a control fails, your tool can generate clear, actionable tasks without inventing language or guessing intent.
+
+### Remediation Scope
+
+Each control maps to one of four remediation scopes that reflect fundamentally different types of work:
+
+- **org** — One org-level configuration change (e.g., "Enable SSO enforcement for production users")
+- **entity** — One task per noncompliant entity (e.g., "Formally install Connected App: Slack")
+- **mechanism** — Implement tooling or automated process (e.g., "Implement regulated data detection for Long Text Area fields")
+- **inventory** — Establish and maintain system of record (e.g., "Establish and maintain SSO bypass user inventory")
+
+Controls that include remediation metadata will have a `<remediation_scope>` block in the XML:
+
+```xml
+<control id="SBS-OAUTH-003">
+  <title>Inventory and Criticality Classification of OAuth-Enabled Connected Apps</title>
+  <statement>...</statement>
+  <description>...</description>
+  <rationale>...</rationale>
+  <audit_procedure>...</audit_procedure>
+  <remediation>...</remediation>
+  
+  <remediation_scope>
+    <scope>inventory</scope>
+  </remediation_scope>
+  
+  <task>
+    <title_template>Establish and maintain Connected App criticality inventory</title_template>
+  </task>
+  
+  <default_value>...</default_value>
+</control>
+```
+
+### Understanding Scope Types
+
+**org** — Org-level configuration changes
+- One task per Salesforce org
+- Typically involves enabling/disabling settings or configuring org-wide policies
+- Example: Enable SSO enforcement setting + assign permissions
+- Implementation: Configuration changes, usually no custom code
+
+**entity** — Per-entity remediation
+- One task per noncompliant entity
+- Vendors scan org, identify violations, generate tasks for each
+- Example: 5 Connected Apps not installed → 5 tasks
+- Implementation: Bulk actions, list views, per-item remediation
+
+**mechanism** — Build and deploy capability
+- One task to implement tooling or automation
+- Requires development, deployment, and ongoing operation
+- Example: Build custom scanner for regulated data detection
+- Implementation: Custom code, monitoring, alerting infrastructure
+
+**inventory** — System of record maintenance
+- One task to establish and maintain documentation
+- Focuses on governance and external tracking systems
+- Example: Create inventory of SSO bypass users with justifications
+- Implementation: Integration with CMDB/GRC tools, periodic reconciliation
+
+### Task Title Templates
+
+The `<task>` block contains a `<title_template>` that vendors should use to generate tasks. Templates use mustache-style syntax (e.g., `{{entity.name}}`) to insert dynamic values for entity-scoped controls.
+
+**Why this matters:**
+
+Instead of your tool inventing task names like "Fix Connected App Issues" or "Resolve OAUTH-003," you generate the exact task title specified by SBS.
+
+**For entity-scoped controls:**
+```
+Formally install Connected App: Slack
+Formally install Connected App: Jira
+Formally install Connected App: DocuSign
+```
+
+**For other scopes:**
+```
+Implement SSO enforcement for production users (org)
+Establish and maintain SSO bypass user inventory (inventory)
+Implement regulated data detection for Long Text Area fields (mechanism)
+```
+
+This ensures consistency across all tools that implement SBS, creates better user experiences, and eliminates ambiguity about what remediation action is required.
+
+### Implementation Example
+
+```python
+import xml.etree.ElementTree as ET
+
+# Parse control metadata
+control = tree.find(".//control[@id='SBS-OAUTH-001']")
+scope_elem = control.find('remediation_scope/scope')
+task_template = control.find('task/title_template').text
+
+# Scan org and determine compliance
+scan_result = scan_control(org, 'SBS-OAUTH-001')
+
+# Generate tasks based on scope
+scope = scope_elem.text if scope_elem is not None else 'org'
+
+if scope == 'entity':
+    # Generate one task per noncompliant entity
+    for entity in scan_result.noncompliant_entities:
+        task_title = task_template.replace('{{entity.name}}', entity.name)
+        create_task(task_title, control_id='SBS-OAUTH-001', entity_id=entity.id)
+
+elif scope == 'org':
+    # Generate one task for the org if noncompliant
+    if not scan_result.compliant:
+        create_task(task_template, control_id='SBS-OAUTH-001')
+
+elif scope == 'inventory':
+    # Generate one task if inventory gaps exist
+    if scan_result.missing_inventory_count > 0:
+        create_task(task_template, control_id='SBS-OAUTH-001', 
+                   context={'missing': scan_result.missing_inventory_count})
+
+elif scope == 'mechanism':
+    # Generate one task if mechanism not implemented
+    if not scan_result.mechanism_exists:
+        create_task(task_template, control_id='SBS-OAUTH-001')
+```
+
+### Controls Without Metadata
+
+Not all controls have remediation metadata yet. For controls without `<remediation_scope>` or `<task>` blocks, treat them as `org`-scoped and generate one task per org using your own naming conventions.
+
+As SBS evolves, more controls will include metadata to improve task generation consistency.
+
 ## Understanding What SBS Provides
 
 **SBS defines *what* to check, not *how* to check it.**

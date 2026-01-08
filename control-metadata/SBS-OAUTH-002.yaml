@@ -1,0 +1,9 @@
+control_id: SBS-OAUTH-002
+
+remediation:
+  scope: entity
+  entity_type: ConnectedApp
+
+task:
+  title_template: "Configure profile or permission set access for Connected App: {{entity.name}}"
+

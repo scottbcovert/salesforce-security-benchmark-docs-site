@@ -1,0 +1,9 @@
+control_id: SBS-OAUTH-001
+
+remediation:
+  scope: entity
+  entity_type: ConnectedApp
+
+task:
+  title_template: "Formally install Connected App: {{entity.name}}"
+

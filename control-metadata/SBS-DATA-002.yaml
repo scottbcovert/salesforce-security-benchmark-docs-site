@@ -1,0 +1,8 @@
+control_id: SBS-DATA-002
+
+remediation:
+  scope: inventory
+
+task:
+  title_template: "Establish and maintain Long Text Area field inventory"
+

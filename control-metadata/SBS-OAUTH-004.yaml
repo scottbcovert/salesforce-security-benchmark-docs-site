@@ -1,0 +1,9 @@
+control_id: SBS-OAUTH-004
+
+remediation:
+  scope: entity
+  entity_type: Vendor
+
+task:
+  title_template: "Collect security documentation for vendor: {{entity.name}}"
+

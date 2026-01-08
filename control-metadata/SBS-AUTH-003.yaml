@@ -1,0 +1,9 @@
+control_id: SBS-AUTH-003
+
+remediation:
+  scope: entity
+  entity_type: Profile
+
+task:
+  title_template: "Remove unrestricted IP ranges from profile: {{entity.name}}"
+
