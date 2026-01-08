@@ -83,19 +83,19 @@ Create a metadata file in `control-metadata/` to define the remediation scope an
 control_id: SBS-CATEGORY-###
 
 remediation:
-  scope: org | entity | mechanism | inventory
+  scope: entity  # Choose one: org, entity, mechanism, inventory
   entity_type: ConnectedApp  # only required if scope = entity
 
 task:
   title_template: "Clear, actionable task description"
 ```
 
-**Remediation scopes:**
+**Remediation scopes (choose one):**
 
-- **org** — One org-level configuration change (e.g., enable setting, configure policy)
-- **entity** — One task per noncompliant entity (e.g., per Connected App, per Profile)
-- **mechanism** — Implement tooling or automated process (e.g., build scanner, deploy monitoring)
-- **inventory** — Establish and maintain system of record (e.g., document approved users, track criticality ratings)
+- **`org`** — One org-level configuration change (e.g., enable setting, configure policy)
+- **`entity`** — One task per noncompliant entity (e.g., per Connected App, per Profile)
+- **`mechanism`** — Implement tooling or automated process (e.g., build scanner, deploy monitoring)
+- **`inventory`** — Establish and maintain system of record (e.g., document approved users, track criticality ratings)
 
 **Choosing the right scope:**
 

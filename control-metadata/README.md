@@ -10,7 +10,7 @@ Each metadata file must be named exactly as the control ID (e.g., `SBS-OAUTH-002
 control_id: <SBS-ID>
 
 remediation:
-  scope: org | entity | mechanism | inventory
+  scope: entity  # Choose one: org, entity, mechanism, inventory
   entity_type: <required only if scope = entity>
 
 task:
