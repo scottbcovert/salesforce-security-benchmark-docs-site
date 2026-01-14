@@ -2,6 +2,18 @@
 
 Thank you for your interest in contributing to the Security Benchmark for Salesforce (SBS)! Community contributions help make SBS more comprehensive, accurate, and valuable for the entire Salesforce security ecosystem.
 
+## Governance & Roles
+
+### Chief Editor
+
+The Chief Editor oversees the benchmark's structure, consistency, and release cadence. The Chief Editor has final decision-making authority on control definitions, scope, and public content. Editorial authority does not reside with any single company or product team.
+
+### Contributors (Named Individuals)
+
+Contributors are individuals who have materially shaped the benchmark by proposing controls, refining audit procedures, improving definitions, or contributing significant domain expertise. Contributors will be publicly acknowledged and credited. Contribution does not imply organizational sponsorship or endorsement.
+
+Contributors participate as individuals. Their inclusion does not imply that their employer endorses this standard or any organization using it.
+
 ## Ways to Contribute
 
 ### 1. Propose New Controls

@@ -1,17 +1,5 @@
 # About
 
-## Authorship
-
-The Security Benchmark for Salesforce (SBS) was originally authored by [Pablo Gonzalez](https://www.linkedin.com/in/pablis/) during his work as Director of Research and Product Management at AutoRABIT. The benchmark emerged from his research into security posture management for Salesforce and systematic analysis of security requirements across enterprise deployments, distilling industry best practices into a formal compliance standard.
-
-## Contributors
-
-SBS has received contributions and review from Salesforce security practitioners, architects, and industry leaders who have helped refine and validate the controls within this benchmark. Contributors include practitioners from various Salesforce security tooling vendors, consulting firms, and enterprise organizations:
-
-- **Pablo Gonzalez** — AutoRABIT 
-
-*(Contributor list will be updated as the standard evolves through community feedback and peer review.)*
-
 ## Purpose and Independence
 
 SBS is an **independent, community-driven security standard**. It is not affiliated with, endorsed by, or sponsored by Salesforce, Inc., or any specific vendor. While contributors include practitioners from Salesforce security tooling vendors, the benchmark itself is vendor-neutral and serves the broader Salesforce security community—including administrators, architects, auditors, consultants, and security tool vendors of all types.
@@ -22,12 +10,10 @@ The benchmark is published openly to enable:
 - Consistent security expectations across organizations and consultancies
 - Continuous improvement through community contributions and feedback
 
-## Contributing
+## Chief Editor
 
-SBS is a living standard that will evolve as the Salesforce platform and security landscape change. Contributions, feedback, and suggestions from the community are welcome and encouraged.
+[Pablo Gonzalez](https://www.linkedin.com/in/pablis/) serves as Chief Editor of SBS, overseeing the benchmark's structure, consistency, and release cadence. Pablo originally authored the benchmark during his work as Director of Research and Product Management at AutoRABIT, emerging from his research into security posture management for Salesforce and systematic analysis of security requirements across enterprise deployments.
 
-To propose changes, report issues, or suggest new controls, please visit the project repository or contact the maintainers.
+## Contributors
 
-## License
-
-*(License information to be added)*
+SBS has received contributions and review from Salesforce security practitioners, architects, and industry leaders who have helped refine and validate the controls within this benchmark. Contributors participate as individuals, and their inclusion does not imply that their employer endorses this standard or any organization using it. Named contributors will be acknowledged for their material contributions to control development, audit procedures, and domain expertise.
