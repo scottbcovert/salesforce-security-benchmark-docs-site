@@ -13,6 +13,10 @@ remediation:
   scope: entity  # Choose one: org, entity, mechanism, inventory
   entity_type: <required only if scope = entity>
 
+dependencies:
+  - <dependency1>
+  - <dependency2>
+
 task:
   title_template: "<human-readable task title>"
 ```
@@ -22,7 +26,7 @@ task:
 1. **One remediation scope per control** - Each control must map to exactly one remediation shape
 2. **entity_type required for entity scope** - If `scope = entity`, `entity_type` must be specified
 3. **entity_type forbidden for other scopes** - Only `entity` scope may include `entity_type`
-4. **Optional metadata** - Controls without metadata files default to `scope = org` with no task title
+4. **Optional metadata** - Controls without metadata files default to `scope = org` with no task title and no dependencies
 5. **Atomic Control Rule** - If a control implies multiple obligations, it must be split into multiple controls
 
 ## Remediation Scopes

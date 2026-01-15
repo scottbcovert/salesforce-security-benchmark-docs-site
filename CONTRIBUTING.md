@@ -98,6 +98,8 @@ remediation:
   scope: entity  # Choose one: org, entity, mechanism, inventory
   entity_type: ConnectedApp  # only required if scope = entity
 
+dependencies: # Array of any control dependencies (e.g., optional features, external tooling)
+
 task:
   title_template: "Clear, actionable task description"
 ```
@@ -115,6 +117,11 @@ task:
 - If the control requires fixing each item individually → entity (and specify entity_type)
 - If the control requires building custom tooling or automation → mechanism
 - If the control requires maintaining external documentation/tracking → inventory
+
+**Dependencies:**
+
+- If the control depends upon any optional Salesforce features/add-ons and/or any external tooling
+
 
 **Task title templates:**
 
