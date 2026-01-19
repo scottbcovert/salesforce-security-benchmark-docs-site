@@ -32,33 +32,33 @@ Organizations must maintain an authoritative inventory of all Named Credentials 
 **SBS-INT-004: Retain API Total Usage Event Logs for 30 Days**  
 The organization must retain API Total Usage event log data (EventLogFile EventType=ApiTotalUsage) for at least the immediately preceding 30 days using Salesforce-native retention or automated external export and storage.
 
-## Permissions
+## Access Controls
 
-**SBS-PERM-001: Enforce a Documented Permission Set Model**  
+**SBS-ACS-001: Enforce a Documented Permission Set Model**  
 All permission sets, permission set groups, and profiles must conform to a documented model maintained in a system of record and enforced continuously.
 
-**SBS-PERM-002: Documented Justification for All `API-Enabled` Authorizations**  
+**SBS-ACS-002: Documented Justification for All `API-Enabled` Authorizations**  
 Every authorization granting the "API Enabled" permission must have documented business or technical justification recorded in a system of record.
 
-**SBS-PERM-003: Documented Justification for `Approve Uninstalled Connected Apps` Permission**  
+**SBS-ACS-003: Documented Justification for `Approve Uninstalled Connected Apps` Permission**  
 The "Approve Uninstalled Connected Apps" permission must only be assigned to highly trusted users with documented justification and must not be granted to end-users.
 
-**SBS-PERM-004: Documented Justification for All Super Admin–Equivalent Users**  
+**SBS-ACS-004: Documented Justification for All Super Admin–Equivalent Users**  
 All users with simultaneous View All Data, Modify All Data, and Manage Users permissions must be documented in a system of record with clear business or technical justification.
 
-**SBS-PERM-005: Only Use Custom Profiles for Active Users**  
+**SBS-ACS-005: Only Use Custom Profiles for Active Users**  
 All active users must be assigned custom profiles. The out-of-the-box standard profiles must not be used.
 
-**SBS-PERM-006: Documented Justification for `Use Any API Client` Permission**  
+**SBS-ACS-006: Documented Justification for `Use Any API Client` Permission**  
 The "Use Any API Client" permission must only be assigned to highly trusted users with documented justification and must not be granted to end-users.
 
-**SBS-PERM-007: Maintain Inventory of Non-Human Identities**
+**SBS-ACS-007: Maintain Inventory of Non-Human Identities**
 Organizations must maintain an authoritative inventory of all non-human identities, including integration users, automation users, bot users, and API-only accounts.
 
-**SBS-PERM-008: Restrict Broad Privileges for Non-Human Identities**
+**SBS-ACS-008: Restrict Broad Privileges for Non-Human Identities**
 Non-human identities must not be assigned permissions that bypass sharing rules or grant administrative capabilities unless documented business justification exists.
 
-**SBS-PERM-009: Implement Compensating Controls for Privileged Non-Human Identities**
+**SBS-ACS-009: Implement Compensating Controls for Privileged Non-Human Identities**
 Non-human identities with permissions that bypass sharing rules or grant administrative capabilities must have compensating controls implemented to mitigate risk.
 
 
