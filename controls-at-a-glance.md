@@ -32,22 +32,35 @@ Organizations must maintain an authoritative inventory of all Named Credentials 
 **SBS-INT-004: Retain API Total Usage Event Logs for 30 Days**  
 The organization must retain API Total Usage event log data (EventLogFile EventType=ApiTotalUsage) for at least the immediately preceding 30 days using Salesforce-native retention or automated external export and storage.
 
-## Permissions
+## Access Controls
 
-**SBS-PERM-001: Enforce a Documented Permission Set Model**  
+**SBS-ACS-001: Enforce a Documented Permission Set Model**  
 All permission sets, permission set groups, and profiles must conform to a documented model maintained in a system of record and enforced continuously.
 
-**SBS-PERM-002: Documented Justification for All API-Enabled Authorizations**  
+**SBS-ACS-002: Documented Justification for All `API-Enabled` Authorizations**  
 Every authorization granting the "API Enabled" permission must have documented business or technical justification recorded in a system of record.
 
-**SBS-PERM-003: Documented Justification for Approve Uninstalled Connected Apps Permission**  
+**SBS-ACS-003: Documented Justification for `Approve Uninstalled Connected Apps` Permission**  
 The "Approve Uninstalled Connected Apps" permission must only be assigned to highly trusted users with documented justification and must not be granted to end-users.
 
-**SBS-PERM-004: Documented Justification for All Super Admin–Equivalent Users**  
+**SBS-ACS-004: Documented Justification for All Super Admin–Equivalent Users**  
 All users with simultaneous View All Data, Modify All Data, and Manage Users permissions must be documented in a system of record with clear business or technical justification.
 
-**SBS-PERM-005: Only Use Custom Profiles for Active Users**  
+**SBS-ACS-005: Only Use Custom Profiles for Active Users**  
 All active users must be assigned custom profiles. The out-of-the-box standard profiles must not be used.
+
+**SBS-ACS-006: Documented Justification for `Use Any API Client` Permission**  
+The "Use Any API Client" permission must only be assigned to highly trusted users with documented justification and must not be granted to end-users.
+
+**SBS-ACS-007: Maintain Inventory of Non-Human Identities**
+Organizations must maintain an authoritative inventory of all non-human identities, including integration users, automation users, bot users, and API-only accounts.
+
+**SBS-ACS-008: Restrict Broad Privileges for Non-Human Identities**
+Non-human identities must not be assigned permissions that bypass sharing rules or grant administrative capabilities unless documented business justification exists.
+
+**SBS-ACS-009: Implement Compensating Controls for Privileged Non-Human Identities**
+Non-human identities with permissions that bypass sharing rules or grant administrative capabilities must have compensating controls implemented to mitigate risk.
+
 
 ## Authentication
 
@@ -82,16 +95,19 @@ The organization must implement a mechanism that continuously or periodically an
 **SBS-DATA-002: Maintain an Inventory of Long Text Area Fields Containing Regulated Data**  
 The organization must maintain an up-to-date inventory of all Long Text Area fields that are known or detected to contain regulated or personal data.
 
-## Change Management
+## Deployments
 
-**SBS-CHG-001: Require a Designated Deployment Identity for Metadata Changes**  
+**SBS-DEP-001: Require a Designated Deployment Identity for Metadata Changes**  
 Salesforce production orgs must designate a single deployment identity that is exclusively used for all metadata deployments and high-risk configuration changes performed through automated or scripted release processes.
 
-**SBS-CHG-002: Establish and Maintain a List of High-Risk Metadata Types Prohibited from Direct Production Editing**  
+**SBS-DEP-002: Establish and Maintain a List of High-Risk Metadata Types Prohibited from Direct Production Editing**  
 Salesforce production orgs must maintain an explicit list of high-risk metadata types that must never be edited directly in production by human users, defaulting at minimum to the SBS baseline list while allowing organizations to extend or refine it as needed.
 
-**SBS-CHG-003: Monitor and Alert on Unauthorized Modifications to High-Risk Metadata**  
+**SBS-DEP-003: Monitor and Alert on Unauthorized Modifications to High-Risk Metadata**  
 Salesforce production orgs must implement a monitoring capability that detects and reports any modification to high-risk metadata performed by a user other than the designated deployment identity.
+
+**SBS-DEP-004: Establish Source-Driven Development Process**  
+Meaningful Salesforce metadata changes must be deployed through a source-driven, automated, and deterministic deployment process, except where the platform does not provide programmatic deployment support.
 
 ## Security Configuration
 
@@ -103,5 +119,5 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 26*
+*Total Controls: 29*
 

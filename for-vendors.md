@@ -188,7 +188,7 @@ The XML file provides structured control requirements—statements, descriptions
 
 SBS controls do not map directly to simple binary Salesforce metadata attributes. For example:
 
-- **SBS-PERM-002** requires that all API-enabled authorizations have documented justifications in a system of record. This requires querying profiles/permission sets via Metadata API, identifying which grant "API Enabled," and then checking an external system of record for justifications.
+- **SBS-ACS-002** requires that all API-enabled authorizations have documented justifications in a system of record. This requires querying profiles/permission sets via Metadata API, identifying which grant "API Enabled," and then checking an external system of record for justifications.
 
 - **SBS-CHG-003** requires monitoring for unauthorized metadata changes. This might involve polling the Setup Audit Trail API, comparing changes against a deployment identity, and alerting on violations.
 
@@ -213,7 +213,7 @@ tree = ET.fromstring(response.content)
 # Map control IDs to your scanning functions
 SCANNERS = {
     'SBS-AUTH-001': check_sso_enforcement,
-    'SBS-PERM-002': check_api_enabled_justifications,
+    'SBS-ACS-002': check_api_enabled_justifications,
     'SBS-OAUTH-001': check_connected_app_installation,
     # ... vendor implements these functions
 }
@@ -237,7 +237,7 @@ The vendor must implement each `check_*` function using Salesforce APIs, metadat
 Here's a complete control as it appears in the XML:
 
 ```xml
-<control id="SBS-PERM-002">
+<control id="SBS-ACS-002">
   <title>Documented Justification for All API-Enabled Authorizations</title>
   <statement>Every authorization granting the "API Enabled" permission must have documented business or technical justification recorded in a system of record.</statement>
   <description>All profiles, permission sets, and permission set groups that grant the "API Enabled" permission must be recorded in a designated system of record with a documented business or technical justification for requiring API access.</description>

@@ -68,8 +68,8 @@ Create a markdown file in the appropriate `benchmark/` category (or propose a ne
 **Description:**  
 Detailed explanation of what organizations must do.
 
-**Rationale:**  
-Why this control exists and what risk it mitigates.
+**Risk:** <Badge type="warning" text="High" />  
+Explanation of what goes wrong if this control is not implemented and why that matters.
 
 **Audit Procedure:**  
 1. Step-by-step instructions for evaluating compliance
@@ -86,13 +86,26 @@ Salesforce's out-of-the-box behavior related to this control.
 
 ```
 
-**Create control metadata (recommended for all controls):**
+**Risk levels and Badge types:**
 
-Create a metadata file in `control-metadata/` to define the remediation scope and task title:
+| Risk Level | Badge Type |
+|------------|------------|
+| Critical | `<Badge type="danger" text="Critical" />` |
+| High | `<Badge type="warning" text="High" />` |
+| Moderate | `<Badge type="tip" text="Moderate" />` |
+
+**Important:** Before assigning a risk level, read the **Risk Modeling** section in `introduction.md`. It defines a decision framework with specific questions to determine whether a control is Critical, High, or Moderate. Apply those questions in order to classify your control correctly.
+
+The Badge component is built into VitePress and renders as a colored pill. The risk level explanation should describe *what goes wrong* and *why that's dangerous*.
+
+**Create control metadata (required for all controls):**
+
+Create a metadata file in `control-metadata/` to define the risk level, remediation scope, and task title:
 
 ```yaml
 # control-metadata/SBS-CATEGORY-###.yaml
 control_id: SBS-CATEGORY-###
+risk_level: High  # Required: Critical, High, or Moderate
 
 remediation:
   scope: entity  # Choose one: org, entity, mechanism, inventory
@@ -101,6 +114,14 @@ remediation:
 task:
   title_template: "Clear, actionable task description"
 ```
+
+**Risk level (required):**
+
+The `risk_level` field must match the Badge in the markdown file. Valid values are `Critical`, `High`, or `Moderate`.
+
+**Use the decision framework in `introduction.md` (Section 1.4 Risk Modeling) to determine the correct risk level.** The framework provides specific questions to apply in order—do not assign risk levels based on intuition.
+
+The risk level in YAML is the source of truth for machine-readable output (XML). The Badge in markdown is for visual display only.
 
 **Remediation scopes (choose one):**
 
@@ -148,10 +169,12 @@ python3 scripts/generate_xml.py
 The script will:
 - Parse all markdown control files
 - Load and validate any metadata files in `control-metadata/`
+- Validate that `risk_level` is one of: Critical, High, Moderate
+- Strip Badge markup from risk explanations for clean XML output
 - Generate the complete XML output
 - Report any errors in control format or metadata structure
 
-If you created metadata files, verify that the generated XML includes `<remediation_scope>` and `<task>` blocks for your control.
+If you created metadata files, verify that the generated XML includes `<risk_level>`, `<remediation_scope>`, and `<task>` blocks for your control.
 
 ### Step 5: Submit Pull Request
 
