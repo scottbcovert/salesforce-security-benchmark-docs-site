@@ -1,0 +1,8 @@
+control_id: SBS-ACS-010
+risk_level: Moderate
+
+remediation:
+  scope: mechanism
+
+task:
+  title_template: "Implement periodic access review and recertification process with documented stakeholder approval"
