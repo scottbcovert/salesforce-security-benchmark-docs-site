@@ -338,3 +338,41 @@ The process must establish clear ownership, defined frequency (minimum annual bu
 7. Establish accountability for reviewers and tie review completion to performance management or audit requirements.
 
 **Default Value:** Salesforce does not automatically initiate user access reviews or require stakeholder recertification of access. Organizations must manually track and document access review processes. Without a defined process, access authorization decisions are not systematically validated, and no audit trail of business stakeholder approval exists.
+
+### SBS-ACS-011: Enforce Governance of Access and Authorization Changes
+
+**Control Statement:** All changes to Salesforce user access and authorization must be governed through a documented process that requires approval, records business justification, and produces an auditable record of the change.
+
+**Description:**  
+Organizations must enforce governance over all changes that grant, modify, or revoke access within Salesforce. Access and authorization changes must be requested, approved prior to implementation, and traceable to a documented business justification.
+
+This control applies to changes including, but not limited to:
+- User creation, modification, or deactivation
+- Assignment or removal of profiles, permission sets, or permission set groups
+- Changes to profile or permission set permissions
+- Role hierarchy changes
+- Public group, queue, or territory access changes
+- Sharing rule or restriction rule changes affecting access
+
+Access changes must be auditable and aligned to the organization's documented access model. Unauthorized or undocumented changes represent control failure.
+
+**Risk:** <Badge type="warning" text="High" />  
+Without enforced governance over access changes, organizations lose visibility and control over how privileges are granted and modified. Ad hoc access changes increase the risk of excessive privileges, unauthorized access, and violations of least-privilege principles. The absence of approval, justification, or auditability impairs incident investigation, undermines access reviews, and weakens compliance evidence for audits involving identity, access management, and change control.
+
+**Audit Procedure:**  
+1. Retrieve evidence of the organization's documented process governing access and authorization changes.  
+2. Identify access-related changes made during a representative review period.  
+3. For a sample of changes, verify:  
+   - An approval record exists prior to implementation  
+   - Business justification is documented  
+   - The change is traceable to an identifiable request  
+   - The implemented change is recorded in available audit or change history records  
+4. Identify any access changes lacking approval, justification, or auditability as noncompliant.
+
+**Remediation:**  
+1. Establish and document a formal governance process for access and authorization changes.  
+2. Require approval and business justification for all access modifications.  
+3. Ensure access changes are recorded in an auditable system of record.
+
+**Default Value:**  
+Salesforce does not enforce approval workflows or governance for access and authorization changes. Administrators can directly modify users, permissions, roles, and sharing settings without documented approval or justification. While certain changes may appear in audit logs, governance enforcement is dependent on organizational policy and external processes.

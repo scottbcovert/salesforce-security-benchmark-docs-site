@@ -1,0 +1,9 @@
+control_id: SBS-ACS-011
+risk_level: High
+
+remediation:
+  scope: mechanism
+
+task:
+  title_template: "Establish governance process for access and authorization changes with approval and audit trail"
+

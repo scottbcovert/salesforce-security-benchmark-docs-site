@@ -61,6 +61,11 @@ Non-human identities must not be assigned permissions that bypass sharing rules 
 **SBS-ACS-009: Implement Compensating Controls for Privileged Non-Human Identities**
 Non-human identities with permissions that bypass sharing rules or grant administrative capabilities must have compensating controls implemented to mitigate risk.
 
+**SBS-ACS-010: Enforce Periodic Access Review and Recertification**  
+All user access and configuration influencing permissions and sharing must be formally reviewed and recertified at least annually by designated business stakeholders, with documented approval and remediation of unauthorized or excessive access.
+
+**SBS-ACS-011: Enforce Governance of Access and Authorization Changes**  
+All changes to Salesforce user access and authorization must be governed through a documented process that requires approval, records business justification, and produces an auditable record of the change.
 
 ## Authentication
 
@@ -116,5 +121,5 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 29*
+*Total Controls: 31*
 
