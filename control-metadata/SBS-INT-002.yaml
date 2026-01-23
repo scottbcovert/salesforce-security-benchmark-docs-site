@@ -2,8 +2,9 @@ control_id: SBS-INT-002
 risk_level: Moderate
 
 remediation:
-  scope: inventory
+  scope: entity
+  entity_type: RemoteSiteSetting
 
 task:
-  title_template: "Establish and maintain Remote Site Settings inventory"
+  title_template: "Review and justify Remote Site Setting: {{entity.name}}"
 
