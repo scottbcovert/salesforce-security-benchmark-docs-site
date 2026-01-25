@@ -67,8 +67,8 @@ All user access and configuration influencing permissions and sharing must be fo
 **SBS-ACS-011: Enforce Governance of Access and Authorization Changes**  
 All changes to Salesforce user access and authorization must be governed through a documented process that requires approval, records business justification, and produces an auditable record of the change.
 
-**SBS-ACS-012: Restrict Login Hours for Privileged Permissions**  
-Users with administrative permissions or access to sensitive data must have login hours configured that restrict authentication to business hours.
+**SBS-ACS-012: Classify Users for Login Hours Restrictions**  
+Organizations must maintain a documented classification of users who require login hours restrictions or equivalent monitoring, and must either enforce those restrictions or implement monitoring and alerting for off-hours authentication.
 
 ## Authentication
 

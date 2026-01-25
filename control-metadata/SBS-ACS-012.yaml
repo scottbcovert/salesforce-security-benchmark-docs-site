@@ -1,9 +1,6 @@
 control_id: SBS-ACS-012
 risk_level: Moderate
-
 remediation:
-  scope: entity
-  entity_type: Profile
-
+  scope: inventory
 task:
-  title_template: "Configure login hours for {{entity.name}}"
+  title_template: "Establish and maintain user classification for login hours restrictions"
