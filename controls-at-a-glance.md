@@ -69,8 +69,8 @@ All changes to Salesforce user access and authorization must be governed through
 
 ## Authentication
 
-**SBS-AUTH-001: Enforce Single Sign-On for All Standard Production Users**  
-Salesforce production orgs must enforce Single Sign-On (SSO) for all standard users by enabling the org-level setting that disables Salesforce credential logins and assigning the "Is Single Sign-On Enabled" permission to all non-exempt accounts.
+**SBS-AUTH-001: Enable Organization-Wide SSO Enforcement Setting**  
+Salesforce production orgs must enable the org-level setting that disables Salesforce credential logins for all users.
 
 **SBS-AUTH-002: Govern and Document All Users Permitted to Bypass Single Sign-On**  
 All users who do not have the "Is Single Sign-On Enabled" permission must be explicitly authorized, documented in a system of record, and limited to approved administrative or break-glass use cases.
