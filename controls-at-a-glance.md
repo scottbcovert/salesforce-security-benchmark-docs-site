@@ -108,6 +108,17 @@ The organization must implement a mechanism that continuously or periodically an
 **SBS-DATA-002: Maintain an Inventory of Long Text Area Fields Containing Regulated Data**  
 The organization must maintain an up-to-date inventory of all Long Text Area fields that are known or detected to contain regulated or personal data.
 
+## File Security
+
+**SBS-FILE-001: Require Expiry Dates on Public Content Links**  
+Organizations must ensure that Public Content links have an appropriate expiry date.
+
+**SBS-FILE-002: Require Passwords on Public Content Links for Sensitive Content**  
+Organizations must ensure that Public Content links to sensitive content have a password.
+
+**SBS-FILE-003: Periodic Review and Cleanup of Public Content Links**  
+Organizations must implement a recurring process to review all active Public Content links and remove or remediate links that are no longer required, lack appropriate controls, or were created outside of current policy.
+
 ## Deployments
 
 **SBS-DEP-001: Require a Designated Deployment Identity for Metadata Changes**  
@@ -132,5 +143,5 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 34*
+*Total Controls: 37*
 
