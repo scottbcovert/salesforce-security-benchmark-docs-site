@@ -5,5 +5,5 @@ remediation:
   scope: org
 
 task:
-  title_template: "Implement SSO enforcement for production users"
+  title_template: "Enable org-wide SSO enforcement setting"
 

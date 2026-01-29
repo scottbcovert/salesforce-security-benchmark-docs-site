@@ -2,8 +2,9 @@ control_id: SBS-ACS-002
 risk_level: High
 
 remediation:
-  scope: inventory
+  scope: entity
+  entity_type: PermissionSetAssignment
 
 task:
-  title_template: "Establish and maintain inventory of API-enabled authorizations with documented justification"
+  title_template: "Review and justify 'API Enabled' assignment: {{entity.name}}"
 

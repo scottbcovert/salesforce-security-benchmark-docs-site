@@ -2,8 +2,9 @@ control_id: SBS-AUTH-002
 risk_level: Moderate
 
 remediation:
-  scope: inventory
+    scope: entity
+    entity_type: User
 
 task:
-  title_template: "Establish and maintain SSO bypass user inventory"
+  title_template: "Review and justify SSO bypass user: {{entity.name}}"
 

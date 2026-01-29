@@ -67,10 +67,13 @@ All user access and configuration influencing permissions and sharing must be fo
 **SBS-ACS-011: Enforce Governance of Access and Authorization Changes**  
 All changes to Salesforce user access and authorization must be governed through a documented process that requires approval, records business justification, and produces an auditable record of the change.
 
+**SBS-ACS-012: Classify Users for Login Hours Restrictions**  
+Organizations must maintain a documented classification of users who require login hours restrictions or equivalent monitoring, and must either enforce those restrictions or implement monitoring and alerting for off-hours authentication.
+
 ## Authentication
 
-**SBS-AUTH-001: Enforce Single Sign-On for All Standard Production Users**  
-Salesforce production orgs must enforce Single Sign-On (SSO) for all standard users by enabling the org-level setting that disables Salesforce credential logins and assigning the "Is Single Sign-On Enabled" permission to all non-exempt accounts.
+**SBS-AUTH-001: Enable Organization-Wide SSO Enforcement Setting**  
+Salesforce production orgs must enable the org-level setting that disables Salesforce credential logins for all users.
 
 **SBS-AUTH-002: Govern and Document All Users Permitted to Bypass Single Sign-On**  
 All users who do not have the "Is Single Sign-On Enabled" permission must be explicitly authorized, documented in a system of record, and limited to approved administrative or break-glass use cases.
@@ -92,6 +95,9 @@ Static code analysis with security checks for Apex and Lightning Web Components 
 **SBS-CODE-003: Implement Persistent Apex Application Logging**  
 Organizations must implement an Apex-based logging framework that writes application log events to durable Salesforce storage and must not rely on transient Salesforce debug logs for operational or security investigations.
 
+**SBS-CODE-004: Prevent Sensitive Data in Application Logs**  
+Application logging frameworks must not capture, store, or transmit credentials, authentication tokens, personally identifiable information (PII), regulated data, or other sensitive values in log messages or structured log fields.
+
 ## Customer Portals
 
 **SBS-CPORTAL-001: Prevent Parameter-Based Record Access in Portal Apex**  
@@ -110,6 +116,17 @@ The organization must maintain an up-to-date inventory of all Long Text Area fie
 
 **SBS-DATA-004: Require Field History Tracking for Sensitive Fields**  
 The organization must maintain a documented list of sensitive fields and ensure Field History Tracking is enabled for each listed field on all in-scope objects.
+
+## File Security
+
+**SBS-FILE-001: Require Expiry Dates on Public Content Links**  
+Organizations must ensure that Public Content links have an appropriate expiry date.
+
+**SBS-FILE-002: Require Passwords on Public Content Links for Sensitive Content**  
+Organizations must ensure that Public Content links to sensitive content have a password.
+
+**SBS-FILE-003: Periodic Review and Cleanup of Public Content Links**  
+Organizations must implement a recurring process to review all active Public Content links and remove or remediate links that are no longer required, lack appropriate controls, or were created outside of current policy.
 
 ## Deployments
 
@@ -135,5 +152,5 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 35*
+*Total Controls: 37*
 
