@@ -54,6 +54,7 @@ export default defineConfig({
           { text: 'Data Security', link: '/benchmark/data-security' },
           { text: 'Deployments', link: '/benchmark/deployments' },
           { text: 'Security Configuration', link: '/benchmark/security-configuration' },
+          { text: 'File Security', link: '/benchmark/file-security' },
         ]
       },
 
