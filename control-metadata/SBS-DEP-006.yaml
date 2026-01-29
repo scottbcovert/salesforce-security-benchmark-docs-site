@@ -1,0 +1,10 @@
+control_id: SBS-DEP-006
+risk_level: High
+
+remediation:
+  scope: org
+
+task:
+  title_template: "Configure Salesforce CLI Connected App with token expiration policies"
+
+

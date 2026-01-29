@@ -1,0 +1,10 @@
+control_id: SBS-DEP-005
+risk_level: Critical
+
+remediation:
+  scope: mechanism
+
+task:
+  title_template: "Implement secret scanning for Salesforce source repositories"
+
+

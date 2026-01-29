@@ -145,6 +145,12 @@ Salesforce production orgs must implement a monitoring capability that detects a
 **SBS-DEP-004: Establish Source-Driven Development Process**  
 Meaningful Salesforce metadata changes must be deployed through a source-driven, automated, and deterministic deployment process, except where the platform does not provide programmatic deployment support.
 
+**SBS-DEP-005: Implement Secret Scanning for Salesforce Source Repositories**  
+Organizations using source-driven development for Salesforce must implement automated secret scanning on all repositories containing Salesforce metadata, configuration, or deployment scripts to detect and prevent the exposure of credentials, access tokens, and other sensitive authentication material.
+
+**SBS-DEP-006: Configure Salesforce CLI Connected App with Token Expiration Policies**  
+Organizations must configure the Connected App used for Salesforce CLI authentication with refresh token expiration of 90 days or less and access token timeout of 15 minutes or less.
+
 ## Security Configuration
 
 **SBS-SECCONF-001: Establish a Salesforce Health Check Baseline**  
@@ -155,5 +161,5 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 43*
+*Total Controls: 45*
 

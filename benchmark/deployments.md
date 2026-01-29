@@ -113,3 +113,72 @@ Without a source-driven deployment process, organizations lose the verifiable au
 
 **Default Value:**  
 Salesforce allows direct manual changes to most metadata in production and does not require source control or automated deployments by default.
+
+### SBS-DEP-005: Implement Secret Scanning for Salesforce Source Repositories
+
+**Control Statement:** Organizations using source-driven development for Salesforce must implement automated secret scanning on all repositories containing Salesforce metadata, configuration, or deployment scripts to detect and prevent the exposure of credentials, access tokens, and other sensitive authentication material.
+
+**Description:**  
+CI/CD pipelines for Salesforce deployments typically require long-lived access tokens, refresh tokens, or other credentials to authenticate as the designated deployment identity. If these credentials are hardcoded in scripts, configuration files, or committed to version control, they become accessible to anyone with repository access—including contractors, consultants, former employees, or attackers who compromise the source control system. Organizations must implement automated secret scanning that runs on every commit and pull request to detect Salesforce-specific secrets (such as access tokens, refresh tokens, consumer secrets, and session IDs) as well as general credential patterns.
+
+**Risk:** <Badge type="danger" text="Critical" />  
+Exposed Salesforce credentials in source repositories represent a direct path to unauthorized production access—a supply chain attack vector that bypasses all other access controls. Contractors, consultants, or any party with repository access can extract hardcoded tokens and authenticate directly to production orgs with the full permissions of the deployment identity. Attackers who compromise source control systems or CI/CD infrastructure gain immediate access to production Salesforce environments. Unlike other credential exposures, Salesforce access tokens often have broad administrative permissions and long validity periods, making them high-value targets. Organizations cannot detect this exposure through Salesforce audit logs alone—the attacker authenticates with valid credentials, and their activity appears legitimate.
+
+**Audit Procedure:**  
+1. Identify all repositories containing Salesforce metadata, SFDX projects, deployment scripts, or CI/CD pipeline configurations.  
+2. Verify that automated secret scanning is enabled on each repository—either through the source control platform's native capabilities (e.g., GitHub Secret Scanning, GitLab Secret Detection) or through third-party tooling.  
+3. Confirm that the scanning configuration includes patterns for Salesforce-specific secrets (access tokens, refresh tokens, consumer keys/secrets, session IDs).  
+4. Review scanning logs or dashboards to verify the tool is actively running and producing results.  
+5. Verify that detected secrets trigger alerts and block merges or deployments until remediated.  
+6. Flag noncompliance if any Salesforce-related repository lacks active secret scanning coverage.
+
+**Remediation:**  
+1. Enable secret scanning on all repositories containing Salesforce code, metadata, or deployment configurations using platform-native tools or third-party secret scanning solutions.  
+2. Configure scanning rules to detect Salesforce-specific credential patterns in addition to general secrets.  
+3. Implement pre-commit hooks or CI checks that block commits containing detected secrets.  
+4. Immediately rotate any Salesforce access tokens, refresh tokens, or credentials that have been committed to version control—even if subsequently removed, as they persist in git history.  
+5. Migrate credential storage to secure secrets management solutions (e.g., CI/CD platform secrets, vault systems) and remove all hardcoded credentials from repositories.  
+6. Establish a periodic rotation schedule for Salesforce deployment credentials to limit the window of exposure if a secret is leaked.
+
+**Default Value:**  
+Salesforce does not provide secret scanning capabilities; organizations must implement scanning through their source control platform or third-party tooling. Credentials can be freely committed to repositories without any native detection or prevention.
+
+### SBS-DEP-006: Configure Salesforce CLI Connected App with Token Expiration Policies
+
+**Control Statement:** Organizations must configure the Connected App used for Salesforce CLI authentication with refresh token expiration of 90 days or less and access token timeout of 15 minutes or less.
+
+**Description:**  
+Salesforce CLI stores OAuth tokens locally on developer workstations to enable command-line access to orgs. The default "Salesforce CLI" Connected App ships with refresh tokens and access tokens set to never expire, meaning stolen or leaked token files provide indefinite access to authorized orgs. Organizations must either create a dedicated Connected App for CLI usage or install and configure the default Connected App with appropriate token expiration policies—refresh tokens must expire within 90 days and access tokens must timeout within 15 minutes. When using a dedicated Connected App, organizations should use the `--client-id` flag with CLI authentication commands.
+
+**Risk:** <Badge type="warning" text="High" />  
+Salesforce CLI token files stored on local workstations represent a persistent credential exposure risk. If a laptop is stolen, reassigned without proper cleanup, or compromised by malware, attackers can extract token files that provide direct access to Salesforce orgs—including production environments. With the default Connected App configuration, these tokens never expire, giving attackers indefinite access that persists even after the original user's password is changed or their account is deactivated. The attack surface expands with each org a developer authenticates to, as token files accumulate credentials to sandboxes, Dev Hubs, and production orgs. Organizations cannot detect this credential theft through Salesforce audit logs because the attacker authenticates with valid tokens.
+
+**Audit Procedure:**  
+1. From Setup, navigate to Connected Apps OAuth Usage (or Apps → Connected Apps → Connected Apps OAuth Usage).  
+2. Identify the Connected App(s) used for Salesforce CLI authentication—either the default "Salesforce CLI" app or a custom Connected App.  
+3. Review the OAuth Policies for each CLI-related Connected App:  
+   - Verify that Refresh Token Policy is set to "Expire refresh token after" with a value of 90 days or less.  
+   - Verify that Session Policies Timeout Value is set to 15 minutes or less.  
+4. If a custom Connected App is used, verify that developers are instructed to use the `--client-id` flag when authenticating.  
+5. Flag noncompliance if any CLI-related Connected App has tokens set to never expire or exceeds the maximum allowed durations.
+
+**Remediation:**  
+1. Determine whether to use the default "Salesforce CLI" Connected App or create a dedicated Connected App for CLI authentication.  
+2. If using the default app:  
+   - From Setup, navigate to Connected Apps OAuth Usage.  
+   - Locate "Salesforce CLI" and click Install (if not already installed), then Edit Policies.  
+   - Set Refresh Token Policy to "Expire refresh token after: 90 Days" (or less).  
+   - Set Session Policies Timeout Value to "15 minutes" (or less).  
+3. If creating a dedicated Connected App:  
+   - Create a new Connected App with OAuth enabled and appropriate callback URL.  
+   - Configure refresh token expiry to 90 days or less and access token timeout to 15 minutes or less.  
+   - Distribute the Consumer Key to developers and require use of `--client-id` flag.  
+4. Communicate to developers that they will need to re-authenticate periodically when refresh tokens expire.  
+5. Consider implementing compensating controls to protect locally stored token files, such as:  
+   - Requiring full disk encryption (FileVault, BitLocker) on developer workstations.  
+   - Enabling remote wipe capability for managed devices.  
+   - Including Salesforce CLI token file cleanup in device offboarding procedures.  
+   - Training developers to run `sf org logout --all` before returning or transferring devices.
+
+**Default Value:**  
+The default "Salesforce CLI" Connected App is configured with refresh tokens and access tokens that never expire. Organizations must explicitly install and configure the app or create a dedicated Connected App to enforce token expiration policies.
