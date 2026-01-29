@@ -114,6 +114,9 @@ The organization must implement a mechanism that continuously or periodically an
 **SBS-DATA-002: Maintain an Inventory of Long Text Area Fields Containing Regulated Data**  
 The organization must maintain an up-to-date inventory of all Long Text Area fields that are known or detected to contain regulated or personal data.
 
+**SBS-DATA-003: Maintain Tested Backup and Recovery for Salesforce Data and Metadata**  
+Salesforce production orgs must maintain a documented backup and recovery capability for Salesforce data and metadata, and must test restoration on a defined schedule.
+
 **SBS-DATA-004: Require Field History Tracking for Sensitive Fields**  
 The organization must maintain a documented list of sensitive fields and ensure Field History Tracking is enabled for each listed field on all in-scope objects.
 
@@ -152,5 +155,5 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 37*
+*Total Controls: 43*
 

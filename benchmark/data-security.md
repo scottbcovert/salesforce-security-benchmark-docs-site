@@ -55,6 +55,31 @@ Without a current inventory of fields containing regulated data, organizations c
 **Default Value:**  
 Salesforce does not maintain or provide an inventory of Long Text Area fields containing regulated data.
 
+### SBS-DATA-003: Maintain Tested Backup and Recovery for Salesforce Data and Metadata
+
+**Control Statement:** Salesforce production orgs must maintain a documented backup and recovery capability for Salesforce data and metadata, and must test restoration on a defined schedule.
+
+**Description:**  
+Organizations must back up Salesforce data and metadata using Salesforce exports, APIs, source control, or third-party tooling, and must document recovery procedures sufficient to restore a known-good state.
+
+**Risk:** <Badge type="warning" text="High" />  
+Without reliable backups and tested restoration procedures, organizations cannot recover from accidental deletion, malicious data destruction, configuration corruption, or ransomware-like events. This impairs incident response, business continuity, and the ability to validate data integrity after security events or outages.
+
+**Audit Procedure:**  
+1. Obtain the documented backup and recovery policy covering Salesforce data and metadata.  
+2. Verify that backups are performed on a defined schedule and retained per policy.  
+3. Review evidence of a completed restoration test within the defined testing interval.  
+4. Confirm that backup storage is protected with appropriate access controls.
+
+**Remediation:**  
+1. Implement or configure a backup solution for Salesforce data and metadata.  
+2. Define backup frequency, retention, and storage protections.  
+3. Execute and document restoration tests on the defined schedule.  
+4. Update recovery procedures based on test results.
+
+**Default Value:**  
+Salesforce does not provide automatic, comprehensive backup and restore for all data and metadata by default.
+
 ### SBS-DATA-004: Require Field History Tracking for Sensitive Fields
 
 **Control Statement:** The organization must maintain a documented list of sensitive fields and ensure Field History Tracking is enabled for each listed field on all in-scope objects.
@@ -78,3 +103,4 @@ Without field history tracking on sensitive fields, unauthorized or accidental c
 
 **Default Value:**  
 Salesforce does not enable Field History Tracking for sensitive fields by default.
+
