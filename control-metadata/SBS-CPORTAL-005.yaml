@@ -1,0 +1,8 @@
+control_id: SBS-CPORTAL-005
+risk_level: High
+
+remediation:
+  scope: org
+
+task:
+  title_template: "Conduct annual penetration testing of portal security controls"
