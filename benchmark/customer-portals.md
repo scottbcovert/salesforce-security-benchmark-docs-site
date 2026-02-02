@@ -99,3 +99,27 @@ Guest users represent the highest-risk trust boundary in Salesforce portals—th
 
 **Default Value:**  
 Salesforce has progressively restricted guest user default permissions in recent releases, but older orgs may retain permissive configurations. Guest user profiles do not prevent object access or Apex invocation by default—administrators must explicitly configure restrictions.
+
+### SBS-CPORTAL-004: Prevent Parameter-Based Record Access in Portal-Exposed Flows
+
+**Control Statement:** Autolaunched Flows exposed to customer portal users must not accept user-supplied input variables that directly determine which records are accessed.
+
+**Description:**  
+Flows invoked from Experience Cloud must not accept input variables for record IDs, object names, or filter criteria. All record access must be derived from the authenticated user's context using `$User.ContactId` or similar user context resources.
+
+**Risk:** <Badge type="danger" text="Critical" />  
+Flows accepting user-controlled input variables for record access create IDOR vulnerabilities allowing external users to access any record in the org. Because Autolaunched Flows run in system context without sharing by default, a single flow accepting a record ID input parameter bypasses all permissions and sharing rules. This constitutes a Critical boundary violation: unauthorized users access data they should never see, with no compensating controls required to fail.
+
+**Audit Procedure:**  
+1. Using the inventory from SBS-CPORTAL-003, identify all portal-exposed Autolaunched Flows.
+2. For each flow, examine input variables for types that could contain record IDs (Text, Record, Text Collection).
+3. Review flow logic to determine if input variables influence Get Records, Update Records, or Delete Records elements.
+4. Flag any flow accepting user-supplied input variables that control record access as noncompliant.
+
+**Remediation:**  
+1. Refactor flows to eliminate input variables controlling record access.
+2. Derive accessible records from authenticated user context (e.g., `$User.Id`, `$User.ContactId`, `$User.AccountId`).
+3. Configure flows to run in user context ("With Sharing") where available.
+
+**Default Value:**  
+Salesforce does not prevent flows from accepting user-supplied input variables. Autolaunched Flows run in system context without sharing by default.

@@ -106,6 +106,9 @@ AuraEnabled methods exposed to customer portal users must not accept user-suppli
 **SBS-CPORTAL-002: Restrict Guest User Record Access**  
 Guest users in customer portals must not have Create, Read, Update, or Delete permissions on standard or custom objects except as strictly required for unauthenticated user flows.
 
+**SBS-CPORTAL-004: Prevent Parameter-Based Record Access in Portal-Exposed Flows**  
+Autolaunched Flows exposed to customer portal users must not accept user-supplied input variables that directly determine which records are accessed.
+
 ## Data Security
 
 **SBS-DATA-001: Implement Mechanisms to Detect Regulated Data in Long Text Area Fields**  
