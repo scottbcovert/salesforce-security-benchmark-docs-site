@@ -106,6 +106,9 @@ AuraEnabled methods exposed to customer portal users must not accept user-suppli
 **SBS-CPORTAL-002: Restrict Guest User Record Access**  
 Guest users in customer portals must not have Create, Read, Update, or Delete permissions on standard or custom objects except as strictly required for unauthenticated user flows.
 
+**SBS-CPORTAL-003: Inventory Portal-Exposed Apex Classes and Flows**  
+Organizations must maintain an authoritative inventory of all Apex classes and Autolaunched Flows exposed to Experience Cloud sites, documenting which components are accessible to external and guest users.
+
 ## Data Security
 
 **SBS-DATA-001: Implement Mechanisms to Detect Regulated Data in Long Text Area Fields**  
