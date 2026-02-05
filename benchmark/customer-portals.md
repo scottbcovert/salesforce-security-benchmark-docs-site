@@ -100,28 +100,32 @@ Guest users represent the highest-risk trust boundary in Salesforce portals—th
 **Default Value:**  
 Salesforce has progressively restricted guest user default permissions in recent releases, but older orgs may retain permissive configurations. Guest user profiles do not prevent object access or Apex invocation by default—administrators must explicitly configure restrictions.
 
-### SBS-CPORTAL-005: Annual Penetration Testing for Portal Security
+### SBS-CPORTAL-005: Conduct Penetration Testing for Portal Security
 
-**Control Statement:** Organizations with active Experience Cloud sites must conduct penetration testing of portal security controls at least annually.
+**Control Statement:** Organizations with Experience Cloud sites must conduct penetration testing of portal security controls before initial go-live and subsequently after major releases or on a defined cadence.
 
 **Description:**  
-Penetration testing validates that authentication boundaries, authorization controls, and data access restrictions function correctly under adversarial conditions. Testing must target portal-exposed Apex classes, Flows, and components, including parameter manipulation, IDOR attempts, and privilege escalation scenarios.
+Penetration testing validates that authentication boundaries, authorization controls, and data access restrictions function correctly under adversarial conditions. Testing must target portal-exposed Apex classes, Flows, and components, including parameter manipulation, IDOR attempts, and privilege escalation scenarios. Organizations determine ongoing testing frequency based on regulatory requirements and change velocity.
 
 **Risk:** <Badge type="warning" text="High" />  
 Without regular penetration testing, organizations cannot verify that portal security controls function correctly when adversaries attempt to exploit them. Configuration audits verify settings exist but cannot validate runtime behavior under attack. Undetected vulnerabilities in portal-exposed components allow unauthorized data access.
 
 **Audit Procedure:**  
-1. Request documentation of the most recent portal penetration test.
-2. Verify the test was conducted within the past 12 months.
-3. Confirm the test scope included portal-exposed Apex classes and Flows.
-4. Review test report for identified vulnerabilities and remediation status.
-5. Flag as noncompliant if no test was conducted in the past 12 months or if high/critical findings remain unremediated.
+1. Verify penetration testing was conducted before initial portal go-live.
+2. Verify the organization has defined an ongoing testing cadence based on regulatory requirements and change frequency.
+3. Request documentation of the most recent portal penetration test.
+4. Verify testing occurred according to the defined cadence or after major releases.
+5. Confirm test scope included portal-exposed Apex classes and Flows.
+6. Review test report for identified vulnerabilities and remediation status.
+7. Flag as noncompliant if no go-live testing occurred, ongoing testing does not follow the defined cadence, or if high/critical findings remain unremediated.
 
 **Remediation:**  
-1. Engage qualified penetration testers with Salesforce Experience Cloud expertise.
-2. Define test scope covering all portal-exposed components from SBS-CPORTAL-003 inventory.
-3. Conduct testing at least annually and after major portal changes.
-4. Remediate identified vulnerabilities before production deployment.
+1. Conduct penetration testing before initial portal go-live.
+2. Define ongoing testing cadence based on regulatory requirements and release frequency.
+3. Engage qualified penetration testers with Salesforce Experience Cloud expertise.
+4. Define test scope covering all portal-exposed components.
+5. Conduct testing according to defined cadence and after major portal changes.
+6. Remediate identified vulnerabilities before production deployment.
 
 **Default Value:**  
 Salesforce does not require or conduct penetration testing of customer implementations.
