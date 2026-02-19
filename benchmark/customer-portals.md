@@ -100,6 +100,34 @@ Guest users represent the highest-risk trust boundary in Salesforce portals—th
 **Default Value:**  
 Salesforce has progressively restricted guest user default permissions in recent releases, but older orgs may retain permissive configurations. Guest user profiles do not prevent object access or Apex invocation by default—administrators must explicitly configure restrictions.
 
+
+### SBS-CPORTAL-003: Inventory Portal-Exposed Apex Classes and Flows
+
+**Control Statement:** Organizations must maintain an authoritative inventory of all Apex classes and Autolaunched Flows exposed to Experience Cloud sites, documenting which components are accessible to external and guest users.
+
+**Description:**  
+Organizations must document all Apex classes with `@AuraEnabled` methods and all Autolaunched Flows that can be invoked from Experience Cloud sites. The inventory must include which portal user profiles and permission sets can access each component.
+
+**Risk:** <Badge type="warning" text="High" />  
+Without a complete inventory of portal-exposed components, organizations cannot assess their external attack surface or enforce security reviews for externally accessible code. Security teams lose visibility into which business logic external users can invoke, preventing effective security testing, incident response, and access governance. This impairs the ability to detect unauthorized exposure of sensitive functionality or identify components requiring security hardening.
+
+**Audit Procedure:**  
+1. Request the organization's inventory of portal-exposed Apex classes and Flows from the designated system of record.
+2. Query all Apex classes with `@AuraEnabled` methods accessible to portal user profiles.
+3. Query all Autolaunched Flows invoked from Experience Cloud pages or components.
+4. Verify each component appears in the inventory with documentation of which portal profiles can access it.
+5. Flag any portal-exposed component missing from the inventory as noncompliant.
+
+**Remediation:**  
+1. Enumerate all Apex classes containing `@AuraEnabled` methods.
+2. Enumerate all Autolaunched Flows embedded in Experience Cloud sites.
+3. For each component, document which portal user profiles and permission sets have access.
+4. Store the inventory in the designated system of record.
+5. Establish a process to update the inventory when new components are exposed to portals.
+
+**Default Value:**  
+Salesforce does not require or maintain an inventory of portal-exposed components.
+
 ### SBS-CPORTAL-004: Prevent Parameter-Based Record Access in Portal-Exposed Flows
 
 **Control Statement:** Autolaunched Flows exposed to customer portal users must not accept user-supplied input variables that directly determine which records are accessed.
