@@ -109,6 +109,9 @@ Guest users in customer portals must not have Create, Read, Update, or Delete pe
 **SBS-CPORTAL-003: Inventory Portal-Exposed Apex Classes and Flows**  
 Organizations must maintain an authoritative inventory of all Apex classes and Autolaunched Flows exposed to Experience Cloud sites, documenting which components are accessible to external and guest users.
 
+**SBS-CPORTAL-005: Conduct Penetration Testing for Portal Security**  
+Organizations with Experience Cloud sites must conduct penetration testing of portal security controls before initial go-live and subsequently after major releases or on a defined cadence.
+
 ## Data Security
 
 **SBS-DATA-001: Implement Mechanisms to Detect Regulated Data in Long Text Area Fields**  

@@ -23,6 +23,11 @@ jobs:
         with:
           python-version: '3.11'
       
+      - name: Install Python dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
       - name: Generate XML from markdown controls
         run: |
           python3 scripts/generate_xml.py
