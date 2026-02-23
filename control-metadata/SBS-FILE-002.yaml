@@ -1,0 +1,8 @@
+control_id: SBS-FILE-002
+risk_level: High
+
+remediation:
+  scope: org
+
+task:
+  title_template: "Enforce passwords on Public Content links for sensitive content"

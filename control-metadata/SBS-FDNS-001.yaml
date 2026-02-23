@@ -1,0 +1,8 @@
+control_id: SBS-FDNS-001
+risk_level: High
+
+remediation:
+  scope: org
+
+task:
+  title_template: "Establish centralized security system of record for Salesforce governance"
