@@ -2,56 +2,47 @@
 
 This section defines controls related to secure configuration and development practices for Salesforce customer portals, including Experience Cloud sites, Communities, and other external-facing Salesforce platforms. These controls ensure that organizations implement proper access controls, data isolation, and secure coding practices when exposing Salesforce functionality to external users.
 
-### SBS-CPORTAL-001: Prevent Parameter-Based Record Access in Portal Apex
+### SBS-CPORTAL-001: Prevent Insecure Direct Object Reference (IDOR) in Portal Apex
 
-**Control Statement:** All Apex methods exposed to customer portal users must not accept user-provided parameters that determine which records are accessed, and must instead derive record access exclusively from the authenticated user's context.
+**Control Statement:**  
+All Apex methods exposed to Experience Cloud or customer portal users must enforce server-side authorization for every record accessed or modified. User-supplied parameters (including record IDs, filters, field names, or relationship references) must not be trusted as the basis for access control and must be validated against the running user's sharing, CRUD, and FLS permissions before use.
 
 **Description:**  
-Organizations must architect portal-exposed Apex methods to prevent Insecure Direct Object Reference (IDOR) vulnerabilities by prohibiting acceptance of user-supplied record identifiers, SOQL filter predicates, field selection lists, or relationship traversal parameters. Methods must derive data access from server-side evaluation of the running user's context using `UserInfo` class methods (`UserInfo.getUserId()`, `UserInfo.getContactId()`, etc.) and traverse relationships from the authenticated user's associated records (User → Contact → Account) rather than trusting client-side input.
+Portal-exposed Apex methods are callable by external users and therefore must not rely on client-provided identifiers or query inputs to determine record access. Accepting record IDs, filter criteria, field lists, or relationship paths without validating the running user's access creates Insecure Direct Object Reference (IDOR) vulnerabilities.
 
-Examples of prohibited parameter patterns include:
-- Record IDs passed from the frontend to control which records are queried
-- Dynamic WHERE clause components or filter criteria supplied by the user  
-- Field lists determining what data is returned via dynamic SOQL
-- Parent/child relationship identifiers controlling query scope
+Methods must:
+
+* Run `with sharing` unless explicitly justified.
+* Enforce object- and field-level permissions.
+* Prevent user-controlled SOQL structure (e.g., dynamic WHERE clauses or field lists).
+* Restrict data scope to records the authenticated user is authorized to access according to business rules.
+
+Parameters may be accepted when required for legitimate functionality, but must be validated server-side before querying or performing DML.
 
 **Risk:** <Badge type="danger" text="Critical" />  
-When portal-exposed methods accept user-controlled parameters to determine record access, external users can manipulate these inputs to bypass intended access controls and exfiltrate unauthorized data. By iterating record IDs, modifying query filters, or injecting field names, attackers gain direct access to records beyond their sharing-based permissions—even when proper sharing keywords are declared. This vulnerability is especially severe in customer portal contexts where thousands of external users with adversarial intent can systematically enumerate organizational data. A single method accepting a record ID parameter from the frontend creates a SQL injection-equivalent vulnerability in the Salesforce trust model—allowing attackers to read, modify, or delete data without authentication or authorization checks, independent of any other security control failures. This constitutes a Critical boundary violation: unauthorized users access data they should never see, with no compensating controls required to fail.
+If portal-exposed Apex trusts user-controlled parameters to determine record access, external users can manipulate inputs to retrieve or modify unauthorized records. This may enable record enumeration, data exfiltration, or data corruption. IDOR vulnerabilities represent a critical authorization boundary failure.
 
 **Audit Procedure:**  
-1. Identify all Apex classes containing `@AuraEnabled` methods or other methods exposed to customer portal sites.  
-2. For each method, examine the parameter list to identify parameters of type `Id`, `String`, `List<Id>`, `List<String>`, `Set<Id>`, or `Map<String, Object>` that could control record access.  
-3. Review the method implementation to determine if parameters influence SOQL query construction (WHERE clauses, record IDs, field selection, relationship traversal).  
-4. Verify that methods derive record access from `UserInfo.getUserId()` or related user context rather than accepting frontend-supplied identifiers.  
-5. Conduct penetration testing by attempting to pass unauthorized record IDs or manipulated parameters from portal user sessions.  
-6. Flag any method that accepts user-supplied parameters controlling record access as noncompliant.
+1. Identify all Apex classes exposing `@AuraEnabled`, `@InvocableMethod`, or `@RestResource` methods accessible to portal users.
+2. Review method parameters of type `Id`, `String`, collections, or maps that could influence record access.
+3. Verify that:
+
+   * Classes run `with sharing` or implement equivalent authorization checks.
+   * Record access is validated before query or DML.
+   * CRUD and FLS are enforced.
+   * Dynamic SOQL does not incorporate unsanitized user input.
+4. Attempt to access unauthorized records by manipulating record IDs or filter inputs from a portal user session.
+5. Flag any method that relies solely on user-supplied parameters to control record access as noncompliant.
 
 **Remediation:**  
-1. Refactor portal-exposed methods to eliminate all parameters that control record access, query scope, or field selection.  
-2. Implement server-side logic that determines accessible records based on the running user's context:
-   ```apex
-   @AuraEnabled
-   public static Account getMyAccount() {
-       Id userId = UserInfo.getUserId();
-       User currentUser = [SELECT ContactId FROM User WHERE Id = :userId];
-       Contact portalContact = [SELECT AccountId FROM Contact WHERE Id = :currentUser.ContactId];
-       return [SELECT Id, Name FROM Account WHERE Id = :portalContact.AccountId];
-   }
-   ```
-3. For methods that must operate on specific records, validate ownership using `UserRecordAccess` before returning data:
-   ```apex
-   List<UserRecordAccess> access = [SELECT RecordId, HasReadAccess 
-                                     FROM UserRecordAccess 
-                                     WHERE UserId = :UserInfo.getUserId() 
-                                     AND RecordId = :recordId];
-   if (access.isEmpty() || !access[0].HasReadAccess) {
-       throw new AuraHandledException('Access denied');
-   }
-   ```
-4. Establish code review requirements that specifically check for parameter-based access control in portal-exposed methods.
+* Enforce `with sharing` on portal-facing classes by default.
+* Scope queries using the running user's context where possible.
+* If record IDs are accepted as parameters, verify access using sharing or `UserRecordAccess` before returning or modifying data.
+* Remove user-controlled query structure and whitelist allowable filter inputs.
+* Enforce CRUD and FLS on all returned or modified records.
 
 **Default Value:**  
-Salesforce does not prevent or validate user-supplied parameters in custom Apex code. Developers bear full responsibility for implementing access controls.
+Salesforce does not validate user-supplied parameters in custom Apex. Developers are responsible for implementing server-side authorization controls in all portal-exposed methods.
 
 ### SBS-CPORTAL-002: Restrict Guest User Record Access
 
