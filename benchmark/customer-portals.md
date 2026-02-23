@@ -225,12 +225,12 @@ Organizations must:
 * Review external sharing settings when new objects are created or when sharing configuration changes.
 
 **Risk:** <Badge type="danger" text="Critical" />
-When external OWDs are set to Public Read Only, every authenticated portal user can read every record of that object across the entire org. A single portal user with legitimate credentials can access the complete dataset—including records belonging to other customers, partners, or internal teams. This cross-tenant data exposure is especially damaging in multi-customer portals where isolation between portal users is a business requirement. Combined with API access (SBS-CPORTAL-006), an attacker can script bulk extraction of all records in any object with permissive external sharing. This constitutes a Critical data isolation failure.
+When external OWDs are set to Public Read Only, every authenticated portal user can read every record of that object across the entire org. A single portal user with legitimate credentials can access the complete dataset—including records belonging to other customers, partners, or internal teams. This cross-tenant data exposure is especially damaging in multi-customer portals where isolation between portal users is a business requirement. Combined with SBS-CPORTAL-006, an attacker can script bulk extraction of all records in any object with permissive external sharing. This constitutes a Critical data isolation failure.
 
 **Audit Procedure:**
 1. Navigate to Setup > Sharing Settings and review the Organization-Wide Defaults for all objects.
 2. Identify objects where the external access level is set to Public Read Only or Public Read/Write.
-3. For each object with a non-Private external OWD, determine whether external portal users have profile-level access to the object.
+3. For each object with a non-Private external OWD, determine whether external portal users have access to the object via profile or permission set.
 4. Verify whether a documented business justification and compensating controls exist for any non-Private external OWD.
 5. Test by authenticating as a portal user and querying records owned by other users or accounts.
 6. Flag any object with a non-Private external OWD and portal user access that lacks documented justification as noncompliant.
