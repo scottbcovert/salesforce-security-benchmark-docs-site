@@ -9,13 +9,16 @@ The organization must maintain a centralized system of record documenting all Sa
 
 ## OAuth Security
 
-**SBS-OAUTH-001: Require Formal Installation and Access Governance for Connected Apps**  
-Organizations must formally install all connected apps and must control access to each installed app exclusively through assigned profiles or permission sets.
+**SBS-OAUTH-001: Require Formal Installation of Connected Apps**
+Organizations must formally install all connected apps used for OAuth authentication rather than relying on user-authorized OAuth connections.
 
-**SBS-OAUTH-002: Inventory and Criticality Classification of OAuth-Enabled Connected Apps**  
+**SBS-OAUTH-002: Require Profile or Permission Set Access Control for Connected Apps**
+Organizations must control access to each formally installed connected app exclusively through assigned profiles or permission sets.
+
+**SBS-OAUTH-003: Add Criticality Classification of OAuth-Enabled Connected Apps**
 All OAuth-enabled Connected Apps must be recorded in an authoritative system of record and assigned a documented vendor criticality rating reflecting integration importance and data sensitivity.
 
-**SBS-OAUTH-003: Due Diligence Documentation for High-Risk Connected App Vendors**  
+**SBS-OAUTH-004: Due Diligence Documentation for High-Risk Connected App Vendors**
 Organizations must review and retain available security documentation for all high-risk Connected App vendors and explicitly record any missing documentation as part of the vendor assessment.
 
 ## Integrations
@@ -170,5 +173,5 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 45*
+*Total Controls: 49*
 
