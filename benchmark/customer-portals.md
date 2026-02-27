@@ -176,7 +176,7 @@ Salesforce does not require or conduct penetration testing of customer implement
 ### SBS-CPORTAL-006: Minimize Object and Field Permissions for Authenticated Portal User Profiles and Permission Sets
 
 **Control Statement:**
-Authenticated portal user profiles and permission sets must restrict object-level (CRUD) and field-level (FLS) permissions to only those objects and fields required for portal functionality. Objects not used by any portal component must have all permissions removed from external user profiles and permission sets.
+Authenticated portal user profiles and permission sets must only provide object-level (CRUD) and field-level (FLS) permissions to those objects and fields required for portal functionality. Objects not used by any portal component must have all permissions removed from external user profiles and permission sets.
 
 **Description:**
 When an external user authenticates to an Experience Cloud site, their profile and permission sets determine which objects and fields they can access—not only through the portal UI, but also through Salesforce's standard Aura components that underpin Digital Experience sites. These built-in components (such as those powering record detail pages, list views, and related lists) respect object-level and field-level permissions but do not restrict access to only the objects explicitly placed on portal pages. Any object with Read access granted to a portal user profile or permission set can be queried through standard Aura component requests, even if no portal page or custom component references that object. This creates a hidden data exposure surface that is invisible to administrators reviewing portal pages alone.
